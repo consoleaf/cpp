@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <stdexcept>
 
 using namespace std;
 
@@ -35,6 +36,10 @@ TEST(sum, case6) {
 #pragma endregion
 
 // todo
-int sum(int, int) {
-    throw std::runtime_error("Not implemented!");
+int sum(int a, int b) {
+  // throw std::runtime_error("Not implemented!");
+  int sum = a + b;
+  if (a > 0 && b > 0 && sum < 0 || a < 0 && b < 0 && sum > 0) // aka if overflow
+    throw std::overflow_error("This number is over the INT32 limit.");
+  return (int)sum;
 }

@@ -30,7 +30,10 @@ TEST(power, case5) {
 
 #pragma endregion
 
-// todo
-long long power(int, int) {
-    throw std::runtime_error("Not implemented!");
+long long power(int num, int pow) {
+    long long res = 1;
+    for (int i = 0; i < pow; i++) {
+        res *= num;
+    }
+    return res;
 }

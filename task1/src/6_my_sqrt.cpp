@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <cmath>
 
 using namespace std;
 
@@ -38,6 +39,12 @@ TEST(mySqrt, case5) {
 #pragma endregion
 
 // todo
-double mySqrt(double) {
-    throw std::runtime_error("Not implemented!");
+double mySqrt(double n) {
+    double x = 1;
+    for (;;) {
+        double nx = (x + n / x) / 2;
+        if (abs(x - nx) < ABS_ERROR) break;
+        x = nx;
+    }
+    return x;
 }

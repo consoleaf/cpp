@@ -29,7 +29,18 @@ TEST(fibonacci, case5) {
 
 #pragma endregion
 
-// todo
-long long fibonacci(int) {
-    throw std::runtime_error("Not implemented!");
+long long fibonacci(int x) {
+    if (x < 3) return 1;
+
+    long long a = 1;
+    long long b = 1;
+    long long res;
+
+    for (int i = 2; i < x; i++) {
+        res = a + b;
+        a = b;
+        b = res;
+    }
+
+    return res;
 }

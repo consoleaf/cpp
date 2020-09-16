@@ -29,7 +29,20 @@ TEST(binaryPower, case5) {
 
 #pragma endregion
 
-// todo
-long long binaryPower(int, int) {
-    throw std::runtime_error("Not implemented!");
+long long binaryPower(long long num, int pow) {
+    if (pow == 0) return 1;
+    if (pow == 1) return num;
+
+    long long res = binaryPower(num, pow / 2);
+
+    res *= res;
+
+    if (pow % 2 != 0)
+        res *= num;
+
+    return res;
+}
+
+long long binaryPower(int num, int pow) {
+    return binaryPower((long long)num, pow);
 }
