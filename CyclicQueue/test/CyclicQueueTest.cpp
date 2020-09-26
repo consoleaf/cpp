@@ -1,9 +1,30 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <algorithm>
 #include "CyclicQueue.h"
 
 using namespace std;
+
+// trim from start (in place)
+static inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
+}
+
+// trim from end (in place)
+static inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(std::string &s) {
+    ltrim(s);
+    rtrim(s);
+}
 
 /*
  * Вам небходимо создать очередь с максимальной вместимостью = 100 и написать обработку команд.
@@ -41,12 +62,32 @@ using namespace std;
  * которая принимает на вход 2 аргумента - путь к файлу с тестом и путь к файлу, куда необходимо
  * выводить ответы, и с помощью объекта очереди с capacity = 100 решить задачу.
 */
-void solve(const std::string& pathToTest, const std::string& pathToOut) {
-    // todo
+void solve(const std::string &pathToTest, const std::string &pathToOut) {
+    ifstream fin(pathToTest);
+    ofstream fout(pathToOut);
+
+    string command;
+    getline(fin, command);
+
+    CyclicQueue queue(100);
+
+    while (fin.good()) {
+        trim(command);
+        auto space_pos = command.find(' ');
+
+        if (space_pos != std::string::npos) {
+            // push
+            queue.push(stoi(command.substr(space_pos + 1, command.size() - space_pos - 1)));
+            fout << "ok" << endl;
+        }
+
+        getline(fin, command);
+    }
+
     throw std::runtime_error("Not implemented!");
 }
 
-bool check(const string& answerPath, const string& progPath) {
+bool check(const string &answerPath, const string &progPath) {
     ifstream inAnswer{answerPath};
     ifstream inProg{progPath};
     bool flag = true;
@@ -66,7 +107,7 @@ bool check(const string& answerPath, const string& progPath) {
 }
 
 // Первый аргумент командной строки должен содержать полный путь до тестовых данных (test/data)
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     if (argc < 2) {
         throw logic_error("Program must contain a command line argument to the directory with test data!");
     }
