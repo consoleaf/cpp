@@ -44,9 +44,9 @@ static inline void trim(std::string &s) {
  * push 5
  * push 6
  * size
- * back
+ * front
  * pop
- * back
+ * front
  * exit
  *
  * Пример выходных данных:
